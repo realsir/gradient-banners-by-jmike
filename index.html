@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gradient Banners by j.mike</title>
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+      color: #111827;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+    .background-text {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      opacity: 0.08;
+      font-family: "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 14px;
+      line-height: 1.4;
+      white-space: nowrap;
+      color: #111827;
+      padding: 0 24px;
+      pointer-events: none;
+      overflow: hidden;
+      user-select: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .background-text span {
+      user-select: none;
+      white-space: nowrap;
+      overflow: hidden;
+      display: block;
+      padding-bottom: 6px;
+    }
+
+    .container {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .overlay-wrapper {
+      height: 100vh; 
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+    }
+
+    .overlay {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 10px;
+      width: 90%;
+      max-width: 520px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      padding: 25px 20px 40px 20px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 24px;
+      color: #111111;
+      font-smooth: antialiased;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+    }
+
+    .overlay h1 {
+      margin: 0 0 15px 0;
+      font-size: 28px;
+    }
+
+    .overlay a {
+      color: #007bff;
+      text-decoration: none;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .overlay a:hover {
+      text-decoration: underline;
+    }
+
+    .overlay p {
+      margin-top: 12px;
+      color: #333333;
+      font-size: 18px;
+      font-weight: 400;
+      line-height: 1.4;
+    }
+
+    .button-container {
+      margin-top: 30px;
+    }
+
+    .btn {
+      background: transparent;
+      border: 2px solid #333333;
+      color: #333333;
+      padding: 12px 36px;
+      font-size: 20px;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      font-family: inherit;
+    }
+
+    .btn:hover {
+      background-color: #007bff;
+      color: #ffffff;
+    }
+
+    .gallery {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+      padding: 20px 10px 80px 10px;
+      max-width: 960px;
+      margin-left: auto;
+      margin-right: auto;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .gallery img {
+      cursor: pointer;
+      width: 100%;
+      max-width: 900px;
+      height: auto;
+      object-fit: contain;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s ease;
+      background: #ffffff;
+      font-family: inherit;
+      display: block;
+    }
+
+    .gallery img:hover {
+      transform: scale(1.02);
+    }
+  </style>
+</head>
+<body>
+  <div class="background-text" aria-hidden="true" id="backgroundText"></div>
+
+  <div class="container">
+    <div class="overlay-wrapper">
+      <div class="overlay">
+        <h1>Gradient Banners</h1>
+        <p>
+          I'm made this site specially for the grad legend <a href="https://x.com/miketwinks" target="_blank" rel="noopener noreferrer">j.mike</a> who makes incredibly beautiful banners. His banners should not be lost and is gathered in one place.
+        </p> 
+        <div class="button-container">
+          <button class="btn" id="showGallery">./</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="gallery" id="gallery"></div>
+  </div>
+
+  <script>
+    const bgText = document.getElementById('backgroundText');
+    const phrase = './ Gradient Banners by j.mike ';
+
+    function createFullLine() {
+      let line = '';
+      const approxCharsPerLine = Math.floor(window.innerWidth / 9);
+      while (line.length < approxCharsPerLine) {
+        line += phrase;
+      }
+      return line.trim();
+    }
+
+    function fillBackground() {
+      const linesCount = 40;
+      const fullLine = createFullLine();
+      bgText.innerHTML = '';
+      for (let i = 0; i < linesCount; i++) {
+        const span = document.createElement('span');
+        span.textContent = fullLine;
+        bgText.appendChild(span);
+      }
+    }
+
+    fillBackground();
+    window.addEventListener('resize', fillBackground);
+
+    const btn = document.getElementById('showGallery');
+    const gallery = document.getElementById('gallery');
+    const overlayWrapper = document.querySelector('.overlay-wrapper');
+
+    btn.addEventListener('click', () => {
+      overlayWrapper.style.display = 'none';  
+      gallery.style.display = 'flex';          
+
+      if (!gallery.hasChildNodes()) {
+        for (let i = 1; i <= 10; i++) {
+          const img = document.createElement('img');
+          img.src = `${i}.png`;
+          img.alt = `Banner image ${i}`;
+          img.addEventListener('click', () => {
+            window.open(img.src, '_blank');
+          });
+          gallery.appendChild(img);
+        }
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>
+
